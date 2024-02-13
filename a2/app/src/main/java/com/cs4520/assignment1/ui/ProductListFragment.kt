@@ -9,7 +9,6 @@ import com.cs4520.assignment1.R
 import com.cs4520.assignment1.databinding.FragmentLoginBinding
 import com.cs4520.assignment1.databinding.FragmentProductListBinding
 
-
 class ProductListFragment : Fragment() {
     private var _binding: FragmentProductListBinding? = null
     private val binding get() = _binding!!

@@ -1,4 +1,4 @@
-package com.cs4520.assignment1
+package com.cs4520.assignment1.data
 
 val productsDataset = listOf(
     listOf("Treadmill", "Equipment", null, 32),
