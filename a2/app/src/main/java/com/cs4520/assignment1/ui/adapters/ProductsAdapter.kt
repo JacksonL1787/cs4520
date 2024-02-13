@@ -17,34 +17,37 @@ class ProductsAdapter :
     class ProductViewHolder(private val binding: ProductItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
-            binding.productName.text = product.name
-            binding.productPrice.text =
-                itemView.context.getString(R.string.product_price, product.price)
+            with (binding) {
+                productName.text = product.name
+                productPrice.text =
+                    itemView.context.getString(R.string.product_price, product.price)
 
-            if (product.expiryDate == null) {
-                binding.productExpiryDate.visibility = View.GONE
-            } else {
-                binding.productExpiryDate.visibility = View.VISIBLE
-                binding.productExpiryDate.text = itemView.context.getString(R.string.expiry_date, product.expiryDate)
-            }
-
-            val image: Int
-            val background: Int
-            when (product) {
-                is Product.Equipment -> {
-                    image = R.drawable.equipment
-                    background = Color.parseColor("#E06666")
+                if (product.expiryDate == null) {
+                    productExpiryDate.visibility = View.GONE
+                } else {
+                    productExpiryDate.visibility = View.VISIBLE
+                    productExpiryDate.text =
+                        itemView.context.getString(R.string.expiry_date, product.expiryDate)
                 }
 
-                is Product.Food -> {
-                    image = R.drawable.food
-                    background = Color.parseColor("#FFD965")
-                }
+                productImage.setImageResource(getProductImage(product))
+                productContainer.setBackgroundColor(getProductBackgroundColor(product))
             }
 
-            binding.productImage.setImageResource(image)
-            binding.productContainer.setBackgroundColor(background)
+        }
 
+        private fun getProductImage(product: Product): Int {
+            return when (product) {
+                is Product.Equipment -> R.drawable.equipment
+                is Product.Food -> R.drawable.food
+            }
+        }
+
+        private fun getProductBackgroundColor(product: Product): Int {
+            return when (product) {
+                is Product.Equipment -> Color.parseColor("#E06666")
+                is Product.Food -> Color.parseColor("#FFD965")
+            }
         }
     }
 
@@ -65,7 +68,7 @@ class ProductsAdapter :
 object ProductDiffCallback : DiffUtil.ItemCallback<Product>() {
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
         // Using name for now, since the dataset provided has unique names for all products.
-        // In the future, products should really be assigned an ID.
+        // In the future, products should be assigned an ID.
         return oldItem.name == newItem.name
     }
 
