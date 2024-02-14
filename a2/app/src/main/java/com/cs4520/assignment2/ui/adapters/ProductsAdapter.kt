@@ -17,7 +17,7 @@ class ProductsAdapter :
     class ProductViewHolder(private val binding: ProductItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
-            with (binding) {
+            with(binding) {
                 productName.text = product.name
                 productPrice.text =
                     itemView.context.getString(R.string.product_price, product.price)

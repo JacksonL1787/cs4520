@@ -2,25 +2,17 @@ package com.cs4520.assignment2.ui
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cs4520.assignment2.R
 import com.cs4520.assignment2.data.Product
 import com.cs4520.assignment2.data.productsDataset
-import com.cs4520.assignment2.databinding.FragmentLoginBinding
 import com.cs4520.assignment2.databinding.FragmentProductListBinding
 import com.cs4520.assignment2.ui.adapters.ProductsAdapter
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeParseException
-import java.util.Date
-import java.util.Locale
 
 class ProductListFragment : Fragment() {
     private var _binding: FragmentProductListBinding? = null

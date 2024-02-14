@@ -1,8 +1,7 @@
 package com.cs4520.assignment2.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
+import androidx.appcompat.app.AppCompatActivity
 import com.cs4520.assignment2.R
 
 class MainActivity : AppCompatActivity() {

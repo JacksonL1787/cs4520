@@ -2,7 +2,12 @@ package com.cs4520.assignment2.data
 
 import java.time.LocalDate
 
-sealed class Product(var name: String, var price: Double, var expiryDate: LocalDate?, var type: String) {
+sealed class Product(
+    var name: String,
+    var price: Double,
+    var expiryDate: LocalDate?,
+    var type: String
+) {
     class Food(name: String, price: Double, expiryDate: LocalDate?) :
         Product(name, price, expiryDate, "Food")
 
