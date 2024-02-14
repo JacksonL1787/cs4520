@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.cs4520.assignment1'
+    namespace 'com.cs4520.assignment2'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.cs4520.assignment1"
+        applicationId "com.cs4520.assignment2"
         minSdk 24
         targetSdk 33
         versionCode 1

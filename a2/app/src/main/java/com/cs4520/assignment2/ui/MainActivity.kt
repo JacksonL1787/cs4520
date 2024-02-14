@@ -1,9 +1,9 @@
-package com.cs4520.assignment1.ui
+package com.cs4520.assignment2.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
-import com.cs4520.assignment1.R
+import com.cs4520.assignment2.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

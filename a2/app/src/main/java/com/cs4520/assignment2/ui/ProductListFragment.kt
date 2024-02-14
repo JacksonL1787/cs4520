@@ -1,4 +1,4 @@
-package com.cs4520.assignment1.ui
+package com.cs4520.assignment2.ui
 
 import android.os.Build
 import android.os.Bundle
@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cs4520.assignment1.R
-import com.cs4520.assignment1.data.Product
-import com.cs4520.assignment1.data.productsDataset
-import com.cs4520.assignment1.databinding.FragmentLoginBinding
-import com.cs4520.assignment1.databinding.FragmentProductListBinding
-import com.cs4520.assignment1.ui.adapters.ProductsAdapter
+import com.cs4520.assignment2.R
+import com.cs4520.assignment2.data.Product
+import com.cs4520.assignment2.data.productsDataset
+import com.cs4520.assignment2.databinding.FragmentLoginBinding
+import com.cs4520.assignment2.databinding.FragmentProductListBinding
+import com.cs4520.assignment2.ui.adapters.ProductsAdapter
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate

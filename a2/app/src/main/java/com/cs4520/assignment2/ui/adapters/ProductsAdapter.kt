@@ -1,4 +1,4 @@
-package com.cs4520.assignment1.ui.adapters
+package com.cs4520.assignment2.ui.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.cs4520.assignment1.R
-import com.cs4520.assignment1.data.Product
-import com.cs4520.assignment1.databinding.ProductItemBinding
+import com.cs4520.assignment2.R
+import com.cs4520.assignment2.data.Product
+import com.cs4520.assignment2.databinding.ProductItemBinding
 
 class ProductsAdapter :
     ListAdapter<Product, ProductsAdapter.ProductViewHolder>(ProductDiffCallback) {

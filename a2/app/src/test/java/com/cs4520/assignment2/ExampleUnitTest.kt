@@ -1,4 +1,4 @@
-package com.cs4520.assignment1
+package com.cs4520.assignment2
 
 import org.junit.Test
 
