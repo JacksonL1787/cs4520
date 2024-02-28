@@ -18,11 +18,11 @@
 
     <fragment
         android:id="@+id/mvpFragment"
-        android:name="com.cs4520.assignment3.MVPFragment"
+        android:name="com.cs4520.assignment3.mvp.MVPFragment"
         android:label="MVPFragment" />
 
     <fragment
         android:id="@+id/mvvmFragment"
-        android:name="com.cs4520.assignment3.MVVMFragment"
+        android:name="com.cs4520.assignment3.mvvm.MVVMFragment"
         android:label="MVVMFragment" />
 </navigation>
