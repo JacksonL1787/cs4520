@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Assignment 3</string>
+    <string name="result">Result: %s</string>
+
+    <string name="missing_values_error">You must provide values for number 1 and number 2</string>
+    <string name="division_by_zero_error">Cannot divide by 0</string>
+    <string name="internal_server_error">Internal Server Error</string>
+</resources>
