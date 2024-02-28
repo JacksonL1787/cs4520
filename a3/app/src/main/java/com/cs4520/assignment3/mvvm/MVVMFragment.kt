@@ -5,20 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.cs4520.assignment3.R
-import com.cs4520.assignment3.common.MathOperation
+import com.cs4520.assignment3.common.ErrorType
 import com.cs4520.assignment3.databinding.FragmentCalculatorBinding
+import kotlinx.coroutines.launch
 
 
 class MVVMFragment : Fragment() {
     private val viewModel: CalculatorViewModel by viewModels()
     private var _binding: FragmentCalculatorBinding? = null
     private val binding get() = _binding!!
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,52 +39,55 @@ class MVVMFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.result.observe(viewLifecycleOwner) {
-            binding.resultTextView.text = getString(R.string.result, it)
+        viewModel.result.observe(viewLifecycleOwner) { res ->
+            binding.resultTextView.text = getString(R.string.result, res)
         }
 
-        viewModel.errorResId.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            viewModel.errorType.collect { type ->
+                val resId = getErrorTypeResId(type)
+                Toast.makeText(context, resId, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun getErrorTypeResId(type: ErrorType): Int {
+        return when (type) {
+            ErrorType.MISSING_VALUES -> R.string.missing_values_error
+            ErrorType.DIVISION_BY_ZERO -> R.string.division_by_zero_error
+            else -> R.string.internal_server_error
         }
     }
 
     private fun initEditTextListeners() {
-        binding.n1EditText.addTextChangedListener {
-            viewModel.setN1FromText(it.toString())
+        binding.number1EditText.addTextChangedListener {
+            viewModel.setNumber1FromText(it.toString())
         }
 
-        binding.n2EditText.addTextChangedListener {
-            viewModel.setN2FromText(it.toString())
+        binding.number2EditText.addTextChangedListener {
+            viewModel.setNumber2FromText(it.toString())
         }
     }
 
     private fun initButtonListeners() {
-        // MathOperation enum is allowed in view because it's common knowledge for application
-        binding.addButton.setOnClickListener {
-            runCalculation(MathOperation.ADD)
-        }
+        val buttons: List<Pair<Button, () -> Boolean>> = listOf(
+            binding.addButton to viewModel::add,
+            binding.subtractButton to viewModel::subtract,
+            binding.multiplyButton to viewModel::multiply,
+            binding.divideButton to viewModel::divide
+        )
 
-        binding.subtractButton.setOnClickListener {
-            runCalculation(MathOperation.SUBTRACT)
+        buttons.forEach { (button, operation) ->
+            button.setOnClickListener {
+                val ok = operation()
+                if (ok) clearInputs()
+            }
         }
-
-        binding.multiplyButton.setOnClickListener {
-            runCalculation(MathOperation.MULTIPLY)
-        }
-
-        binding.divideButton.setOnClickListener {
-            runCalculation(MathOperation.DIVIDE)
-        }
-    }
-
-    private fun runCalculation(operation: MathOperation) {
-        val ok = viewModel.calculate(operation)
-        if (ok) clearInputs()
     }
 
     private fun clearInputs() {
-        binding.n1EditText.text.clear()
-        binding.n2EditText.text.clear()
+        binding.number1EditText.text.clear()
+        binding.number2EditText.text.clear()
     }
 
     override fun onDestroyView() {

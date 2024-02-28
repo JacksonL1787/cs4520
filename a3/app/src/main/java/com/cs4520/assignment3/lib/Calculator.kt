@@ -1,18 +1,15 @@
-package com.cs4520.assignment3
-
-import com.cs4520.assignment3.common.DivisionByZeroException
-import com.cs4520.assignment3.common.NullNumbersException
+package com.cs4520.assignment3.lib
 
 class Calculator {
     private var n1: Double? = null
     private var n2: Double? = null
 
-    fun setN1(n: Double?) {
-        this.n1 = n
+    fun setNumber1(n: Double?) {
+        n1 = n
     }
 
-    fun setN2(n: Double?) {
-        this.n2 = n
+    fun setNumber2(n: Double?) {
+        n2 = n
     }
 
     fun add(): Double {
@@ -41,10 +38,10 @@ class Calculator {
     }
 
     private fun validateNumbers(): Pair<Double, Double> {
-        if(this.n1 == null || this.n2 == null) {
+        if (n1 == null || n2 == null) {
             throw NullNumbersException()
         }
 
-        return Pair(this.n1!!, this.n2!!)
+        return Pair(n1!!, n2!!)
     }
 }

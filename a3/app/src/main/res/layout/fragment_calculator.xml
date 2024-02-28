@@ -8,14 +8,14 @@
     android:paddingHorizontal="16dp">
 
     <EditText
-        android:id="@+id/n1EditText"
+        android:id="@+id/number1EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter number 1"
         android:inputType="numberDecimal" />
 
     <EditText
-        android:id="@+id/n2EditText"
+        android:id="@+id/number2EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter number 2"

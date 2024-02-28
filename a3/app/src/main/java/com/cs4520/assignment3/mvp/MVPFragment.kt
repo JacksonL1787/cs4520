@@ -8,21 +8,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.cs4520.assignment3.R
+import com.cs4520.assignment3.common.ErrorType
 import com.cs4520.assignment3.databinding.FragmentCalculatorBinding
 
 
-class MVPFragment : Fragment(), CalculatorViewInterface {
+class MVPFragment : Fragment(), CalculatorView {
     private var _binding: FragmentCalculatorBinding? = null
     private val binding get() = _binding!!
-    private var _presenter: CalculatorPresenterInterface? = null
+    private var _presenter: CalculatorPresenter? = null
     private val presenter get() = _presenter!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCalculatorBinding.inflate(inflater, container, false)
-        _presenter = CalculatorPresenter(this)
+        _presenter = DefaultCalculatorPresenter(this)
         return binding.root
     }
 
@@ -42,16 +44,16 @@ class MVPFragment : Fragment(), CalculatorViewInterface {
     }
 
     private fun clearInputs() {
-        binding.n1EditText.text.clear()
-        binding.n2EditText.text.clear()
+        binding.number1EditText.text.clear()
+        binding.number2EditText.text.clear()
     }
 
-    override fun getN1Text(): String {
-        return binding.n1EditText.text.toString()
+    override fun getNumber1Text(): String {
+        return binding.number1EditText.text.toString()
     }
 
-    override fun getN2Text(): String {
-        return binding.n2EditText.text.toString()
+    override fun getNumber2Text(): String {
+        return binding.number2EditText.text.toString()
     }
 
     override fun setResult(result: String) {
@@ -59,7 +61,12 @@ class MVPFragment : Fragment(), CalculatorViewInterface {
         clearInputs()
     }
 
-    override fun setError(resId: Int) {
+    override fun setError(type: ErrorType) {
+        val resId = when (type) {
+            ErrorType.MISSING_VALUES -> R.string.missing_values_error
+            ErrorType.DIVISION_BY_ZERO -> R.string.division_by_zero_error
+            else -> R.string.internal_server_error
+        }
         Toast.makeText(context, resId, Toast.LENGTH_SHORT).show()
     }
 
