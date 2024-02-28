@@ -1,6 +1,9 @@
-package com.cs4520.assignment3.mvvm
+package com.cs4520.assignment3
 
-class CalculatorMVVM {
+import com.cs4520.assignment3.common.DivisionByZeroException
+import com.cs4520.assignment3.common.NullNumbersException
+
+class Calculator {
     private var n1: Double? = null
     private var n2: Double? = null
 
@@ -31,16 +34,17 @@ class CalculatorMVVM {
         val (n1, n2) = validateNumbers()
 
         if (n2 == 0.0) {
-            throw ArithmeticException("cannot divide by zero")
+            throw DivisionByZeroException()
         }
 
         return n1 / n2
     }
 
     private fun validateNumbers(): Pair<Double, Double> {
-        val n1 = this.n1 ?: throw NullPointerException("number 1 must not be empty")
-        val n2 = this.n2 ?: throw NullPointerException("number 2 must not be empty")
+        if(this.n1 == null || this.n2 == null) {
+            throw NullNumbersException()
+        }
 
-        return Pair(n1, n2)
+        return Pair(this.n1!!, this.n2!!)
     }
 }
