@@ -1,7 +1,7 @@
-package com.cs4520.assignment4.authentication.login
+package com.cs4520.assignment4.auth.login
 
 import androidx.lifecycle.ViewModel
-import com.cs4520.assignment4.authentication.AuthenticationService
+import com.cs4520.assignment4.auth.AuthenticationService
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 

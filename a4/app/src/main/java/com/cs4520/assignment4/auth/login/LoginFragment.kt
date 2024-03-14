@@ -1,4 +1,4 @@
-package com.cs4520.assignment4.authentication.login
+package com.cs4520.assignment4.auth.login
 
 import android.os.Bundle
 import android.view.LayoutInflater

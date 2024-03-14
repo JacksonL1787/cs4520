@@ -1,4 +1,4 @@
-package com.cs4520.assignment4.views
+package com.cs4520.assignment4
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

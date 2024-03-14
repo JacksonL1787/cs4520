@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cs4520.assignment4.products.Product
 import com.cs4520.assignment4.data.productsDataset
 import com.cs4520.assignment4.databinding.FragmentProductListBinding
-import com.cs4520.assignment4.adapters.ProductsAdapter
 import java.time.LocalDate
 
 class ProductListFragment : Fragment() {
+    private val viewModel: ProductListViewModel by viewModels()
     private var _binding: FragmentProductListBinding? = null
     private val binding get() = _binding!!
 
@@ -29,12 +30,12 @@ class ProductListFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println(productsDataset)
-        val products = makeProductList(productsDataset)
-        println(products)
+        viewModel.loadProducts()
 
-        val productsAdapter = ProductsAdapter()
-        binding.productsRecyclerView.apply {
+        val products = makeProductList(productsDataset)
+
+        val productsAdapter = ProductListItemAdapter()
+        binding.productListRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = productsAdapter
         }
@@ -48,18 +49,13 @@ class ProductListFragment : Fragment() {
             // Exclude item from list if the value is required and null
             val name = p[0] as? String ?: return@mapNotNull null
             val type = p[1] as? String ?: return@mapNotNull null
-            val expiryString = p[2] as? String
+            val expiryDate = p[2] as? String
             val price = (p[3] as? Number)?.toDouble() ?: return@mapNotNull null
 
-            val expiryDate = try {
-                LocalDate.parse(expiryString)
-            } catch (e: Exception) {
-                null
-            }
 
             when (type) {
-                "Food" -> Product.Food(name, price, expiryDate)
-                "Equipment" -> Product.Equipment(name, price, expiryDate)
+                "Food" -> Product(name, price, expiryDate, "Food")
+                "Equipment" -> Product(name, price, expiryDate, "Equipment")
                 else -> null
             }
         }
