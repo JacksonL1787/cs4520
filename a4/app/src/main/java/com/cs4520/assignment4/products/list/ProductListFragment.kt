@@ -1,4 +1,4 @@
-package com.cs4520.assignment4.views
+package com.cs4520.assignment4.products.list
 
 import android.os.Build
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cs4520.assignment4.data.Product
+import com.cs4520.assignment4.products.Product
 import com.cs4520.assignment4.data.productsDataset
 import com.cs4520.assignment4.databinding.FragmentProductListBinding
 import com.cs4520.assignment4.adapters.ProductsAdapter

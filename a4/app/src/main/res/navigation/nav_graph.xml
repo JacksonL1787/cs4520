@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="com.cs4520.assignment4.views.LoginFragment"
+        android:name="com.cs4520.assignment4.authentication.login.LoginFragment"
         android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_productListFragment"
@@ -15,6 +15,6 @@
 
     <fragment
         android:id="@+id/productList"
-        android:name="com.cs4520.assignment4.views.ProductListFragment"
+        android:name="com.cs4520.assignment4.products.list.ProductListFragment"
         android:label="ProductListFragment"></fragment>
 </navigation>

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cs4520.assignment4.R
-import com.cs4520.assignment4.data.Product
+import com.cs4520.assignment4.products.Product
 import com.cs4520.assignment4.databinding.ProductItemBinding
 
 class ProductsAdapter :

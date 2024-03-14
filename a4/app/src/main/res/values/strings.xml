@@ -3,4 +3,8 @@
 
     <string name="product_price">Price: $%1$.2f</string>
     <string name="product_expiry_date">Expires: %s</string>
+
+    <string name="username_missing_error">You must enter a username</string>
+    <string name="password_missing_error">You must enter a password</string>
+    <string name="invalid_credentials_error">There is no account associated with that username and password</string>
 </resources>

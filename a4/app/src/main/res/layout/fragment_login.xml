@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    tools:context=".views.ProductListFragment">
+    tools:context=".products.list.ProductListFragment">
 
     <TextView
         android:layout_width="match_parent"

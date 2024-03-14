@@ -1,4 +1,4 @@
-package com.cs4520.assignment4.data
+package com.cs4520.assignment4.products
 
 import java.time.LocalDate
 
