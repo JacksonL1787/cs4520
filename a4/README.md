@@ -1,6 +1,6 @@
-# Assignment 3 - Favorite Calculator
+# Assignment 4 - API Adventures
 
-A simple Android mobile application designed to perform basic mathematic operations such as addition, subtractions, multiplication, and division. The application features two implementations of this calculator, one using an Model-View-Presenter (MVP) architecture and another using Model-View-ViewModel (MVVM) architecture.
+This assignment evolves the Amazing Products (Assignment 2) app by integrating dynamic data fetching from an API, replacing the static dataset previously used. The application now includes a login screen, a product list screen that dynamically fetches data, and implements pagination for handling large datasets efficiently.
 
 ## Getting Started
 
@@ -11,19 +11,17 @@ A simple Android mobile application designed to perform basic mathematic operati
 ## Usage
 
 1. Launch the application on your device.
-2. After launching the app, you can choose to use the **MVP** or **MVVM** calculator (they're nearly identical) by clicking on one of the respective buttons.
-3. Once in one of the calculators, enter the two numbers you want to use in your calculation into the inputs at the top of the screen.
-   - NOTE: You are limited to two numbers for each calculation.
-4. After entering your numbers in, choose one of the following operations:
+2. On the login screen, enter the following credentials:
 
-   - Add
-   - Subtract
-   - Multiply
-   - Divide
+   - Username: `admin`
+   - Password: `admin`
 
-5. The result for the calculation will appear below the inputs.
+3. Press the "Log in" button to access the product list.
 
-## Additional Information
+## Using the Product List
 
-- The same Model is used for both the MVP and MVVM implementations. Given the assignment requirements, there wasn't a need to create separate models for each.
-  - The only quirk is that the Presenter (in MVP) has to set the numbers in the calculator before running a calculation. However, this actually works out well with the abstracted `runCalculation(operation: () -> Double)` method in the presenter.
+- A progress spinner is shown while data is being loaded.
+- On success, products are displayed to the user.
+  - If the API returns no products, the message "No products available" is shown.
+  - If there is an error fetching the products, an error message is shown.
+  - In offline mode, the application will fetch and display data from a local database if available.
