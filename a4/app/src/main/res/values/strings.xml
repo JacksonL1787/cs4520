@@ -11,4 +11,11 @@
 
     <string name="try_again">Try Again</string>
     <string name="product_list_error">Error loading the product list</string>
+    <string name="log_in_title">Log in</string>
+    <string name="username_placeholder">Enter your username</string>
+    <string name="password_placeholder">Enter your password</string>
+    <string name="log_in_button_text">Log in</string>
+    <string name="previous_page">Previous Page</string>
+    <string name="next_page">Next Page</string>
+    <string name="page_number">Page %1$d</string>
 </resources>

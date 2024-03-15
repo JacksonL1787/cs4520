@@ -1,4 +1,4 @@
-package com.cs4520.assignment4.products.list
+package com.cs4520.assignment4.view.ui.product.list
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cs4520.assignment4.R
 import com.cs4520.assignment4.databinding.ProductItemBinding
-import com.cs4520.assignment4.products.Product
-import com.cs4520.assignment4.products.ProductType
+import com.cs4520.assignment4.view.ui.product.Product
+import com.cs4520.assignment4.view.ui.product.ProductType
 
 class ProductListItemAdapter :
     ListAdapter<Product, ProductListItemAdapter.ProductViewHolder>(ProductDiffCallback) {
@@ -68,9 +68,7 @@ class ProductListItemAdapter :
 
 object ProductDiffCallback : DiffUtil.ItemCallback<Product>() {
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-        // Using name for now, since the dataset provided has unique names for all products.
-        // In the future, products should be assigned an ID.
-        return oldItem.name == newItem.name
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {

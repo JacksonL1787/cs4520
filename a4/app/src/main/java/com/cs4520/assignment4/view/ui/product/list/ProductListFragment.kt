@@ -1,4 +1,4 @@
-package com.cs4520.assignment4.products.list
+package com.cs4520.assignment4.view.ui.product.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,13 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cs4520.assignment4.common.UIState
+import com.cs4520.assignment4.R
+import com.cs4520.assignment4.data.AppDatabase
+import com.cs4520.assignment4.data.products.ProductRepository
 import com.cs4520.assignment4.databinding.FragmentProductListBinding
+import com.cs4520.assignment4.view.common.UIState
+import com.cs4520.assignment4.view.util.NetworkRepository
 
 class ProductListFragment : Fragment() {
-    private lateinit var viewModel: ProductListViewModel
+    private val viewModel: ProductListViewModel by viewModels {
+        val application = requireNotNull(this.activity).application
+
+        val productDao = AppDatabase.get(application).productDao()
+        val productRepo = ProductRepository(productDao)
+
+        val networkRepo = NetworkRepository(application)
+
+        ProductListViewModelFactory(productRepo, networkRepo)
+    }
+
     private var _binding: FragmentProductListBinding? = null
     private val binding get() = _binding!!
     private val productListItemAdapter = ProductListItemAdapter()
@@ -22,25 +35,28 @@ class ProductListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentProductListBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(requireActivity())[ProductListViewModel::class.java]
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.loadProducts()
-
         binding.productListRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = productListItemAdapter
+            itemAnimator = null
         }
         initObservers()
         initButtonListeners()
     }
 
     private fun initObservers() {
+        viewModel.pageNumber.observe(viewLifecycleOwner) { pageNumber ->
+            val formattedPageNumber = pageNumber + 1
+            binding.pageNumberTextView.text = getString(R.string.page_number, formattedPageNumber)
+        }
+
         viewModel.productList.observe(viewLifecycleOwner) { productList ->
-            println(productList)
             productListItemAdapter.submitList(productList)
         }
 
@@ -54,8 +70,6 @@ class ProductListFragment : Fragment() {
 
             statesAndViews.forEach { (state, view) ->
                 if (state == uiState) {
-                    print(state)
-                    println(view)
                     view.visibility = View.VISIBLE
                     return@forEach
                 }
@@ -71,6 +85,14 @@ class ProductListFragment : Fragment() {
 
         binding.productListErrorRetryButton.setOnClickListener {
             viewModel.loadProducts()
+        }
+
+        binding.nextPageButton.setOnClickListener {
+            viewModel.nextPage()
+        }
+
+        binding.previousPageButton.setOnClickListener {
+            viewModel.prevPage()
         }
     }
 

@@ -2,7 +2,6 @@ package com.cs4520.assignment4.data.products
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDate
 
 
 @Entity(

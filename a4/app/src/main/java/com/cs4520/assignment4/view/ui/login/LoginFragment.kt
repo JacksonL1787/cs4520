@@ -1,4 +1,4 @@
-package com.cs4520.assignment4.auth.login
+package com.cs4520.assignment4.view.ui.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -49,8 +49,7 @@ class LoginFragment : Fragment() {
     private fun initObservers() {
         lifecycleScope.launch {
             viewModel.successEvent.collect { success ->
-                println(success)
-                if(success) {
+                if (success) {
                     clearEditTexts()
                     findNavController().navigate(R.id.action_loginFragment_to_productListFragment)
                 }
@@ -58,7 +57,7 @@ class LoginFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.errorEvent.collect{ errorType ->
+            viewModel.errorEvent.collect { errorType ->
                 val resId = getErrorMessageResId(errorType)
                 Toast.makeText(activity, resId, Toast.LENGTH_SHORT)
                     .show()
@@ -73,7 +72,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun getErrorMessageResId(errorType: LoginErrorType): Int {
-        return when(errorType) {
+        return when (errorType) {
             LoginErrorType.USERNAME_MISSING -> R.string.username_missing_error
             LoginErrorType.PASSWORD_MISSING -> R.string.password_missing_error
             LoginErrorType.INVALID_CREDENTIALS -> R.string.invalid_credentials_error
@@ -84,7 +83,6 @@ class LoginFragment : Fragment() {
         binding.usernameEditText.text.clear()
         binding.passwordEditText.text.clear()
     }
-
 
 
     override fun onDestroyView() {

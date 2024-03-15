@@ -1,4 +1,4 @@
-package com.cs4520.assignment4.auth
+package com.cs4520.assignment4.service
 
 private const val TEMP_USERNAME = "admin"
 private const val TEMP_PASSWORD = "admin"

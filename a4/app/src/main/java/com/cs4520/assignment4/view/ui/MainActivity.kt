@@ -1,4 +1,4 @@
-package com.cs4520.assignment4
+package com.cs4520.assignment4.view.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
