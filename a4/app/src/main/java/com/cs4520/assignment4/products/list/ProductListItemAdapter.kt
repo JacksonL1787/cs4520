@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cs4520.assignment4.R
 import com.cs4520.assignment4.databinding.ProductItemBinding
 import com.cs4520.assignment4.products.Product
+import com.cs4520.assignment4.products.ProductType
 
 class ProductListItemAdapter :
     ListAdapter<Product, ProductListItemAdapter.ProductViewHolder>(ProductDiffCallback) {
@@ -30,25 +31,25 @@ class ProductListItemAdapter :
                         itemView.context.getString(R.string.product_expiry_date, product.expiryDate)
                 }
 
-//                productImage.setImageResource(getProductImage(product))
-//                productContainer.setBackgroundColor(getProductBackgroundColor(product))
+                productImage.setImageResource(getProductImage(product))
+                productContainer.setBackgroundColor(getProductBackgroundColor(product))
             }
 
         }
 
-//        private fun getProductImage(product: Product): Int {
-//            return when (product) {
-//                is Product.Equipment -> R.drawable.equipment
-//                is Product.Food -> R.drawable.food
-//            }
-//        }
-//
-//        private fun getProductBackgroundColor(product: Product): Int {
-//            return when (product) {
-//                is Product.Equipment -> Color.parseColor("#E06666")
-//                is Product.Food -> Color.parseColor("#FFD965")
-//            }
-//        }
+        private fun getProductImage(product: Product): Int {
+            return when (product.type) {
+                ProductType.EQUIPMENT -> R.drawable.equipment
+                ProductType.FOOD -> R.drawable.food
+            }
+        }
+
+        private fun getProductBackgroundColor(product: Product): Int {
+            return when (product.type) {
+                ProductType.EQUIPMENT -> Color.parseColor("#E06666")
+                ProductType.FOOD -> Color.parseColor("#FFD965")
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {

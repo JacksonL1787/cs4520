@@ -8,4 +8,7 @@
     <string name="username_missing_error">You must enter a username</string>
     <string name="password_missing_error">You must enter a password</string>
     <string name="invalid_credentials_error">There is no account associated with that username and password</string>
+
+    <string name="try_again">Try Again</string>
+    <string name="product_list_error">Error loading the product list</string>
 </resources>

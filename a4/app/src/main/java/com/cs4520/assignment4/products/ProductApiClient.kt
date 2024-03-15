@@ -8,11 +8,11 @@ import retrofit2.http.Query
 
 
 private const val BASE_URL: String = "https://kgtttq6tg9.execute-api.us-east-2.amazonaws.com/"
-private const val ENDPOINT: String = "prod/"
+private const val LIST_PRODUCTS_ENDPOINT: String = "prod/"
 
 interface ProductApiClient {
-    @GET(ENDPOINT)
-    suspend fun listProducts(@Query("page") pageNumber: Int): Response<List<Product>>
+    @GET(LIST_PRODUCTS_ENDPOINT)
+    suspend fun listProducts(@Query("page") pageNumber: Int): Response<List<ProductData>>
 }
 
 object ProductApiFactory {

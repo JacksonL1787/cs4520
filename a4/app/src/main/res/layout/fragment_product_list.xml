@@ -19,13 +19,57 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         />
 
-    <TextView
-        android:id="@+id/productListEmptyTextView"
+    <LinearLayout
+        android:id="@+id/productListEmptyLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/product_list_empty"
-        android:visibility="gone"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingHorizontal="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/product_list_empty"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:paddingVertical="24dp"
+            />
+        <Button
+            android:id="@+id/productListEmptyRetryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/try_again"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/productListErrorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:paddingHorizontal="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/product_list_error"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:paddingVertical="24dp"
+            />
+        <Button
+            android:id="@+id/productListErrorRetryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/try_again"/>
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
