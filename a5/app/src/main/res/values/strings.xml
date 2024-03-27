@@ -12,6 +12,8 @@
     <string name="try_again">Try Again</string>
     <string name="product_list_error">Error loading the product list</string>
     <string name="log_in_title">Log in</string>
+    <string name="username_text">Username</string>
+    <string name="password_text">Password</string>
     <string name="username_placeholder">Enter your username</string>
     <string name="password_placeholder">Enter your password</string>
     <string name="log_in_button_text">Log in</string>

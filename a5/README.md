@@ -1,4 +1,4 @@
-# Assignment 4 - API Adventures
+# Assignment 5 - API Adventures
 
 This assignment evolves the Amazing Products (Assignment 2) app by integrating dynamic data fetching from an API, replacing the static dataset previously used. The application now includes a login screen, a product list screen that dynamically fetches data, and implements pagination for handling large datasets efficiently.
 
