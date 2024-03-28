@@ -25,11 +25,15 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cs4520.assignment5.R
+import com.cs4520.assignment5.view.util.observeAsState
 
 @Composable
 fun LoginScreen(navController: NavController) {
     val viewModel: LoginViewModel = viewModel()
     val context = LocalContext.current
+
+    val username = viewModel.username.observeAsState("")
+    val password = viewModel.password.observeAsState("")
 
     LaunchedEffect(key1 = true) {
         viewModel.successEvent.collect { success ->
@@ -65,10 +69,10 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
         TextField(
-            value = viewModel.username.value,
+            value = username.value,
             onValueChange = viewModel::setUsername,
             label = { Text(stringResource(id = R.string.username_text)) },
-            placeholder = { Text(stringResource(id = R.string.username_placeholder))},
+            placeholder = { Text(stringResource(id = R.string.username_placeholder)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -76,10 +80,10 @@ fun LoginScreen(navController: NavController) {
         Spacer(modifier = Modifier.padding(vertical = 8.dp))
 
         TextField(
-            value = viewModel.password.value,
+            value = password.value,
             onValueChange = viewModel::setPassword,
             label = { Text(stringResource(id = R.string.password_text)) },
-            placeholder = { Text(stringResource(id = R.string.password_placeholder))},
+            placeholder = { Text(stringResource(id = R.string.password_placeholder)) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),

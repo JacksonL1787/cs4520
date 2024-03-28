@@ -14,6 +14,7 @@ import com.cs4520.assignment5.databinding.FragmentProductListBinding
 import com.cs4520.assignment5.view.common.UIState
 import com.cs4520.assignment5.view.util.NetworkRepository
 
+
 class ProductListFragment : Fragment() {
     private val viewModel: ProductListViewModel by viewModels {
         val application = requireNotNull(this.activity).application

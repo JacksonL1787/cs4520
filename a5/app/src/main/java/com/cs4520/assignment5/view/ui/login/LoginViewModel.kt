@@ -1,7 +1,5 @@
 package com.cs4520.assignment5.view.ui.login
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,11 +14,11 @@ enum class LoginErrorType {
 class LoginViewModel : ViewModel() {
     private val authService = AuthenticationService()
 
-    private val _username = mutableStateOf("")
-    val username: State<String> = _username
+    private val _username = MutableLiveData("")
+    val username: LiveData<String> = _username
 
-    private val _password = mutableStateOf("")
-    val password: State<String> = _password
+    private val _password = MutableLiveData("")
+    val password: LiveData<String> = _password
 
     private val _successEvent = MutableSharedFlow<Boolean>(extraBufferCapacity = 1)
     val successEvent = _successEvent.asSharedFlow()
@@ -42,7 +40,7 @@ class LoginViewModel : ViewModel() {
     }
 
     fun login() {
-        val ok = authService.login(this.username.value, this.password.value)
+        val ok = authService.login(this.username.value ?: "", this.password.value ?: "")
         if (!ok) {
             _errorEvent.tryEmit(LoginErrorType.INVALID_CREDENTIALS)
             return
