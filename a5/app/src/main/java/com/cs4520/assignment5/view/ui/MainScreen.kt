@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.cs4520.assignment5.R
+import com.cs4520.assignment5.view.common.Routes
 import com.cs4520.assignment5.view.ui.login.LoginScreen
 import com.cs4520.assignment5.view.ui.product.list.ProductListScreen
 
@@ -30,9 +31,9 @@ fun MainScreen() {
             )
         }
     ) { innerPadding ->
-        NavHost(navController = navController, startDestination = "login", modifier = Modifier.padding(innerPadding)) {
-            composable("login") { LoginScreen(navController) }
-            composable("productList") { ProductListScreen(navController)}
+        NavHost(navController = navController, startDestination = Routes.LOGIN.path, modifier = Modifier.padding(innerPadding)) {
+            composable(Routes.LOGIN.path) { LoginScreen(navController) }
+            composable(Routes.PRODUCT_LIST.path) { ProductListScreen()}
         }
     }
 

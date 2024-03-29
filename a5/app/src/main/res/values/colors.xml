@@ -7,4 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="product_equipment_background">#E06666</color>
+    <color name="product_food_background">#FFD965</color>
 </resources>

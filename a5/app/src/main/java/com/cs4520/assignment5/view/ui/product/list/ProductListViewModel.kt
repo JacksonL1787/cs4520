@@ -32,6 +32,10 @@ class ProductListViewModel(
     private val _productList = MutableLiveData<List<Product>>()
     val productList: LiveData<List<Product>> = _productList
 
+    init {
+        loadProducts()
+    }
+
     fun loadProducts() {
         val pageNumber = this.pageNumber.value ?: 0
         _uiState.value = UIState.LOADING
@@ -59,7 +63,7 @@ class ProductListViewModel(
                 val productList = data.mapNotNull {
                     convertProductDataToProduct(it)
                 }
-                
+
                 updateProductList(productList)
             } catch (e: Exception) {
                 _uiState.value = UIState.ERROR

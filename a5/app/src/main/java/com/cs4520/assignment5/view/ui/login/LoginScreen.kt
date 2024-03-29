@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cs4520.assignment5.R
+import com.cs4520.assignment5.view.common.Routes
 import com.cs4520.assignment5.view.util.observeAsState
 
 @Composable
@@ -39,7 +40,7 @@ fun LoginScreen(navController: NavController) {
         viewModel.successEvent.collect { success ->
             if (success) {
                 viewModel.clearCredentials()
-                navController.navigate("productList")
+                navController.navigate(Routes.PRODUCT_LIST.path)
             }
         }
     }

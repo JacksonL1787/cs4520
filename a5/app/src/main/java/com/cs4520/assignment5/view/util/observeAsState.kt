@@ -9,11 +9,13 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
+
+// Compose Livedata library was not cooperating, so I just implemented the function myself.
 @Composable
-fun <R, T : R> LiveData<T>.observeAsState(initial: R): State<R> {
+fun <R, T : R> LiveData<T>.observeAsState(fallback: R): State<R> {
     val lifecycleOwner = LocalLifecycleOwner.current
     val state = remember {
-        mutableStateOf(value ?: initial)
+        mutableStateOf(value ?: fallback)
     }
 
     DisposableEffect(this, lifecycleOwner) {

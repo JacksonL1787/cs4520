@@ -20,4 +20,7 @@
     <string name="previous_page">Previous Page</string>
     <string name="next_page">Next Page</string>
     <string name="page_number">Page %1$d</string>
+
+    <string name="route_login">login</string>
+    <string name="route_product_list">productList</string>
 </resources>

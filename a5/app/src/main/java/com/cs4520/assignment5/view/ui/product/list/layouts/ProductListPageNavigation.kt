@@ -1,4 +1,4 @@
-package com.cs4520.assignment5.view.ui.product.list.layout
+package com.cs4520.assignment5.view.ui.product.list.layouts
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.cs4520.assignment5.R
 
 @Composable
-fun ProductListPageNavigation(onPreviousClick: () -> Unit, onNextClick: () -> Unit, pageNumber: String) {
+fun ProductListPageNavigation(onPreviousClick: () -> Unit, onNextClick: () -> Unit, pageNumber: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -33,7 +33,7 @@ fun ProductListPageNavigation(onPreviousClick: () -> Unit, onNextClick: () -> Un
             )
         }
         Text(
-            text = pageNumber,
+            text = stringResource(R.string.page_number, pageNumber),
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.weight(1f)
