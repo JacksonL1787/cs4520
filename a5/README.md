@@ -1,6 +1,6 @@
-# Assignment 5 - API Adventures
+# Assignment 5 - Crafting with Compose
 
-This assignment evolves the Amazing Products (Assignment 2) app by integrating dynamic data fetching from an API, replacing the static dataset previously used. The application now includes a login screen, a product list screen that dynamically fetches data, and implements pagination for handling large datasets efficiently.
+This assignment evolves the API Adventures (Assignment 4) app by replacing previous XML layouts with Compose layouts. Additionally, we moved the product fetching and caching functionality into a worker that runs on app start, every hour, and whenever the user interacts (e.g. visits, changes pages, etc) with the product list.
 
 ## Getting Started
 
