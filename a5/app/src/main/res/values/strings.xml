@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Assignment 5</string>
+
+    <string name="product_price">Price: $%1$.2f</string>
+    <string name="product_expiry_date">Expires: %s</string>
+    <string name="product_list_empty">No products available</string>
+
+    <string name="username_missing_error">You must enter a username</string>
+    <string name="password_missing_error">You must enter a password</string>
+    <string name="invalid_credentials_error">There is no account associated with that username and password</string>
+
+    <string name="try_again">Try Again</string>
+    <string name="product_list_error">Error loading the product list</string>
+    <string name="log_in_title">Log in</string>
+    <string name="username_text">Username</string>
+    <string name="password_text">Password</string>
+    <string name="username_placeholder">Enter your username</string>
+    <string name="password_placeholder">Enter your password</string>
+    <string name="log_in_button_text">Log in</string>
+    <string name="previous_page">Previous Page</string>
+    <string name="next_page">Next Page</string>
+    <string name="page_number">Page %1$d</string>
+
+    <string name="route_login">login</string>
+    <string name="route_product_list">productList</string>
+</resources>
