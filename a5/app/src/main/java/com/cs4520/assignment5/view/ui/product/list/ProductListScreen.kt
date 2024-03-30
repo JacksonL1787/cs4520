@@ -22,10 +22,12 @@ import com.cs4520.assignment5.view.util.observeAsState
 @Composable
 fun ProductListScreen() {
     val context = LocalContext.current
-    val applicationContext = context.applicationContext
-    val viewModel: ProductListViewModel = viewModel(factory = ProductListViewModelFactory(applicationContext))
+    val appContext = context.applicationContext
+
+    val viewModel: ProductListViewModel = viewModel(factory = ProductListViewModelFactory(appContext))
+
     val productList = viewModel.productList.observeAsState(listOf())
-    val uiState = viewModel.uiState.observeAsState(UIState.LOADING)
+    val uiState = viewModel.uiState.observeAsState(UIState.SUCCESS)
     val pageNumber = viewModel.pageNumber.observeAsState(0)
 
 
@@ -43,12 +45,12 @@ fun ProductListScreen() {
             UIState.LOADING -> ProductListLoading()
             UIState.EMPTY -> ProductListRetry(
                 message = stringResource(R.string.product_list_empty),
-                onRetryClick = viewModel::loadProducts
+                onRetryClick = viewModel::refreshData
             )
 
             UIState.ERROR -> ProductListRetry(
                 message = stringResource(R.string.product_list_error),
-                onRetryClick = viewModel::loadProducts
+                onRetryClick = viewModel::refreshData
             )
         }
     }

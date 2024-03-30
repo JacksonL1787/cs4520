@@ -1,5 +1,6 @@
 package com.cs4520.assignment5.data.products
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,6 +13,9 @@ interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(productEntities: List<ProductEntity>)
+
+    @Query("SELECT DISTINCT page FROM products")
+    suspend fun getPageNumbers(): List<Int>
 
     @Query("DELETE FROM products")
     suspend fun nukeTable()

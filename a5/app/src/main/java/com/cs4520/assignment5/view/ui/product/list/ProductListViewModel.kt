@@ -3,11 +3,15 @@ package com.cs4520.assignment5.view.ui.product.list
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.cs4520.assignment5.api.product.ProductApiConfig
-import com.cs4520.assignment5.api.product.ProductApiFactory
-import com.cs4520.assignment5.api.product.ProductData
 import com.cs4520.assignment5.data.AppDatabase
 import com.cs4520.assignment5.data.products.ProductEntity
 import com.cs4520.assignment5.data.products.ProductRepository
@@ -15,19 +19,28 @@ import com.cs4520.assignment5.view.common.UIState
 import com.cs4520.assignment5.view.ui.product.Product
 import com.cs4520.assignment5.view.ui.product.ProductType
 import com.cs4520.assignment5.view.util.NetworkRepository
+import com.cs4520.assignment5.workers.ProductListUpdateWorker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.UUID
+
+private fun OneTimeWorkRequest.Builder.addPageNumber(page: Int): OneTimeWorkRequest.Builder {
+    val data = Data.Builder()
+    data.putInt(ProductListUpdateWorker.PAGE_NUMBER_INPUT, page)
+    this.setInputData(data.build())
+    return this
+}
 
 class ProductListViewModel(
-    applicationContext: Context,
+    private val appContext: Context,
 ) : ViewModel() {
-    private val productDao = AppDatabase.get(applicationContext).productDao()
+    private val workManager = WorkManager.getInstance(appContext)
+
+    private val productDao = AppDatabase.get(appContext).productDao()
     private val productRepo = ProductRepository(productDao)
 
-    private val productApi = ProductApiFactory().create()
-
-    private val networkRepo = NetworkRepository(applicationContext)
+    private val networkRepo = NetworkRepository(appContext)
 
     private val _pageNumber = MutableLiveData(0)
     val pageNumber: LiveData<Int> = _pageNumber
@@ -39,43 +52,36 @@ class ProductListViewModel(
     val productList: LiveData<List<Product>> = _productList
 
     init {
-        loadProducts()
+        refreshData()
     }
 
-    fun loadProducts() {
+    fun refreshData() {
         val pageNumber = this.pageNumber.value ?: 0
-        _uiState.value = UIState.LOADING
-        _productList.value = listOf()
 
-        viewModelScope.launch {
-            if (!networkRepo.isOnline()) {
-                val productList = getProductListFromDatabase(pageNumber)
-                updateProductList(productList)
-                return@launch
+        // Try to set from database if offline
+        if (!networkRepo.isOnline()) {
+            viewModelScope.launch {
+                val productList = getProductsFromDatabase(pageNumber)
+                setProductsInState(productList)
             }
-
-            try {
-                val data = getProductDataListFromApi(pageNumber)
-
-                // Show empty state if raw data is empty
-                if (data.isEmpty()) {
-                    _uiState.value = UIState.EMPTY
-                    return@launch
-                }
-
-                insertProductsIntoDatabase(pageNumber, data)
-
-                // Converts list of ProductData to Product to be sent to UI
-                val productList = data.mapNotNull {
-                    convertProductDataToProduct(it)
-                }
-
-                updateProductList(productList)
-            } catch (e: Exception) {
-                _uiState.value = UIState.ERROR
-                return@launch
-            }
+            return
         }
+
+        _uiState.value = UIState.LOADING
+        val req = OneTimeWorkRequestBuilder<ProductListUpdateWorker>()
+            .addPageNumber(pageNumber)
+            .build()
+        workManager.enqueue(req)
+        handleProductListUpdateWorkInfo(req.id,
+            onSuccess = {
+                viewModelScope.launch {
+                    val productList = getProductsFromDatabase(pageNumber)
+                    setProductsInState(productList)
+                }
+            },
+            onFailure = {
+                _uiState.value = UIState.ERROR
+            })
     }
 
     fun nextPage() {
@@ -91,71 +97,50 @@ class ProductListViewModel(
     private fun updatePage(new: Int) {
         if (isValidPageNumber(new)) {
             _pageNumber.value = new
-            loadProducts()
+            refreshData()
         }
     }
 
-    private fun isValidPageNumber(n: Int): Boolean {
-        return n in 0..ProductApiConfig.MAX_PAGE_NUMBER
-    }
-
-    private fun updateProductList(productList: List<Product>) {
-        _productList.value = productList
-
+    private fun setProductsInState(productList: List<Product>) {
         if (productList.isEmpty()) {
             _uiState.value = UIState.EMPTY
             return
         }
 
+        _productList.value = productList
         _uiState.value = UIState.SUCCESS
     }
 
-    private suspend fun insertProductsIntoDatabase(page: Int, productList: List<ProductData>) {
-        val productEntities = productList.map { product ->
-            ProductEntity(
-                name = product.name,
-                price = product.price,
-                expiryDate = product.expiryDate,
-                type = product.type,
-                page = page
-            )
+    private fun handleProductListUpdateWorkInfo(
+        workerID: UUID,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        val data = workManager.getWorkInfoByIdLiveData(workerID)
+
+        val observer = object : Observer<WorkInfo> {
+            override fun onChanged(workInfo: WorkInfo) {
+                if (workInfo.state.isFinished) {
+                    when (workInfo.state) {
+                        WorkInfo.State.SUCCEEDED -> onSuccess()
+                        WorkInfo.State.FAILED -> onFailure()
+                    }
+                    data.removeObserver(this)
+                }
+            }
         }
 
-        withContext(Dispatchers.IO) {
-            productRepo.updateProductsForPage(page, productEntities)
-        }
+        data.observeForever(observer)
     }
 
-    private suspend fun getProductDataListFromApi(page: Int): List<ProductData> {
-        val res = withContext(Dispatchers.IO) {
-            productApi.listProducts(page)
-        }
+    private suspend fun getProductsFromDatabase(page: Int): List<Product> {
+        val entities = withContext(Dispatchers.IO) { productRepo.getProductsFromPage(page) }
 
-        if (!res.isSuccessful || res.body() == null) {
-            throw Exception("Error fetching data")
-        }
-
-        return res.body()!!
+        return entities.mapNotNull { convertProductEntityToProduct(it) }
     }
 
-    private suspend fun getProductListFromDatabase(page: Int): List<Product> {
-        val productEntities = withContext(Dispatchers.IO) {
-            productRepo.getProductsFromPage(page)
-        }
-        return productEntities.mapNotNull { entity ->
-            convertProductEntityToProduct(entity)
-        }
-    }
-
-    private fun convertProductDataToProduct(data: ProductData): Product? {
-        val type = getProductType(data.type) ?: return null
-
-        return Product(
-            name = data.name,
-            price = data.price,
-            expiryDate = data.expiryDate,
-            type = type
-        )
+    private fun isValidPageNumber(n: Int): Boolean {
+        return n in 0..ProductApiConfig.MAX_PAGE_NUMBER
     }
 
     private fun convertProductEntityToProduct(entity: ProductEntity): Product? {

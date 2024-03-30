@@ -7,12 +7,12 @@ import com.cs4520.assignment5.data.products.ProductRepository
 import com.cs4520.assignment5.view.util.NetworkRepository
 
 class ProductListViewModelFactory(
-    private val applicationContext: Context,
+    private val appContext: Context,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProductListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ProductListViewModel(this.applicationContext) as T
+            return ProductListViewModel(this.appContext) as T
         }
         throw IllegalArgumentException("viewModel must be a ProductListViewModel")
     }

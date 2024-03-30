@@ -6,7 +6,10 @@ import retrofit2.http.Query
 
 interface ProductApiClient {
     @GET(ProductApiConfig.LIST_PRODUCTS_ENDPOINT)
-    suspend fun listProducts(@Query("page") pageNumber: Int): Response<List<ProductData>>
+    suspend fun listProducts(@Query(ProductApiConfig.PAGE_QUERY_PARAM) pageNumber: Int): Response<List<ProductData>>
+
+    @GET(ProductApiConfig.LIST_RANDOM_PRODUCTS_ENDPOINT)
+    suspend fun listRandomProducts(@Query(ProductApiConfig.PAGE_QUERY_PARAM) pageNumber: Int): Response<List<ProductData>>
 }
 
 

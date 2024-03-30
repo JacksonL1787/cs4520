@@ -5,6 +5,11 @@ class ProductRepository(private val productDao: ProductDao) {
         return productDao.getProductsFromPage(page)
     }
 
+    suspend fun getPageNumbers(): List<Int> {
+        // Returns first page if none are present in database
+        return productDao.getPageNumbers().ifEmpty { listOf(0) }
+    }
+
     suspend fun updateProductsForPage(page: Int, productEntities: List<ProductEntity>) {
         productDao.deleteProductsByPage(page)
         productDao.insertAll(productEntities)
