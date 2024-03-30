@@ -1,5 +1,6 @@
 package com.cs4520.assignment5.view.ui.product.list
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.cs4520.assignment5.api.product.ProductApiConfig
 import com.cs4520.assignment5.api.product.ProductApiFactory
 import com.cs4520.assignment5.api.product.ProductData
+import com.cs4520.assignment5.data.AppDatabase
 import com.cs4520.assignment5.data.products.ProductEntity
 import com.cs4520.assignment5.data.products.ProductRepository
 import com.cs4520.assignment5.view.common.UIState
@@ -18,10 +20,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ProductListViewModel(
-    private val productRepo: ProductRepository,
-    private val networkRepo: NetworkRepository
+    applicationContext: Context,
 ) : ViewModel() {
+    private val productDao = AppDatabase.get(applicationContext).productDao()
+    private val productRepo = ProductRepository(productDao)
+
     private val productApi = ProductApiFactory().create()
+
+    private val networkRepo = NetworkRepository(applicationContext)
 
     private val _pageNumber = MutableLiveData(0)
     val pageNumber: LiveData<Int> = _pageNumber

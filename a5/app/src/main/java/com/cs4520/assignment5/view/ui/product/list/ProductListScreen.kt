@@ -18,18 +18,12 @@ import com.cs4520.assignment5.view.ui.product.list.layouts.ProductListRetry
 import com.cs4520.assignment5.view.util.NetworkRepository
 import com.cs4520.assignment5.view.util.observeAsState
 
-private fun initViewModelFactory(context: Context): ProductListViewModelFactory {
-    val productDao = AppDatabase.get(context).productDao()
-    val productRepo = ProductRepository(productDao)
-    val networkRepo = NetworkRepository(context)
-
-    return ProductListViewModelFactory(productRepo, networkRepo)
-}
 
 @Composable
 fun ProductListScreen() {
     val context = LocalContext.current
-    val viewModel: ProductListViewModel = viewModel(factory = initViewModelFactory(context))
+    val applicationContext = context.applicationContext
+    val viewModel: ProductListViewModel = viewModel(factory = ProductListViewModelFactory(applicationContext))
     val productList = viewModel.productList.observeAsState(listOf())
     val uiState = viewModel.uiState.observeAsState(UIState.LOADING)
     val pageNumber = viewModel.pageNumber.observeAsState(0)
